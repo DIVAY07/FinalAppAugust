@@ -25,7 +25,6 @@ import jakarta.validation.Valid;
 
 //import jakarta.validation.Valid;
 
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("/api")
 public class UserController {
@@ -36,6 +35,7 @@ public class UserController {
 	@PostMapping("/openaccount")
 	public ResponseEntity<User1Dto> createUser(@Valid @RequestBody User1Dto userDto)
 	{
+//		System.out.println("the openaccount api is working till here");
 		User1Dto createUserDto = this.userService.createUser(userDto);
 		return new ResponseEntity<>(createUserDto, HttpStatus.CREATED);
 	}

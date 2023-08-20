@@ -1,6 +1,8 @@
 package com.ibs.payloads;
 
 
+import com.ibs.entities.User1;
+
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -14,6 +16,8 @@ public class AccountDto{
 	
 	@NotNull
 	private int accNo;
+	
+	private User1 user1;
 	
 	@NotNull
 	@Size(min = 6 , message = "UserId must be of atleast 6 characters")

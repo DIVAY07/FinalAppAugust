@@ -42,6 +42,9 @@ import jakarta.validation.Valid;
 public class AccountController{
 	
 	@Autowired
+	private UserServiceImpl userService;
+	
+	@Autowired
 	private UserDetailsService userDetailsService;
 	
 	@Autowired
@@ -52,8 +55,6 @@ public class AccountController{
 	
 	private Logger logger = LoggerFactory.getLogger(AccountController.class);
 	
-	
-	
 	@Autowired
 	private AccountServiceImpl accountService;
 	
@@ -61,8 +62,6 @@ public class AccountController{
 	    public ResponseEntity<JwtResponse> login(@RequestBody JwtRequest request) {
 	        this.doAuthenticate(request.getUserId(), request.getLoginPass());
 	        UserDetails userDetails = userDetailsService.loadUserByUsername(request.getUserId());
-	        System.out.println(userDetails.getUsername());
-	        System.out.println(userDetails.getPassword());
 	        String token = this.helper.generateToken(userDetails);
 
 	        JwtResponse response = JwtResponse.builder()
@@ -88,6 +87,15 @@ public class AccountController{
 	    public String exceptionHandler() {
 	        return "Credentials Invalid !!";
 	    }
+	    
+	@GetMapping("/accountDetails")
+	public String showAccountDetails()
+	{
+		return "Welcome to the Account Details page for the user";
+	}
+	
+
+	
 	@GetMapping("/test")
 	public String testing()
 	{

@@ -4,11 +4,13 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @NoArgsConstructor
+@AllArgsConstructor
 @Setter
 @Getter
 public class User1Dto {
@@ -17,15 +19,11 @@ public class User1Dto {
 		
 	
 	@NotNull
-	
 	private String firstName;
 	
 	@NotNull
 	private String lastName;
-	
 
-	
-	
 	@NotNull
 	@Size(min = 10 , message = "Mobile Number Ivalid")
 	private String mobile;

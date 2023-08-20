@@ -1,5 +1,8 @@
 package com.ibs.entities;
+
 import org.springframework.security.core.userdetails.UserDetails;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.*;
 import jakarta.persistence.Column;
@@ -19,9 +22,11 @@ import lombok.Setter;
 @Setter
 public class User1 {
 	
+//	@SequenceGenerator(name="SEQ_GEN", sequenceName="SEQ_JUST_FOR_TEST", allocationSize=100)
+//	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SEQ_GEN")
+
 	@Id
-	@SequenceGenerator(name="SEQ_GEN", sequenceName="SEQ_JUST_FOR_TEST", allocationSize=100)
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SEQ_GEN")
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int accNo;
 	
 	
@@ -33,11 +38,10 @@ public class User1 {
 	private String panNo;
 	private String dob;
 	
+//	@OneToOne
+//	@JsonBackReference
+	private Account account;
 	
 	
-	
-
-	
-	
-	
+		
 }
