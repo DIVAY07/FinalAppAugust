@@ -15,12 +15,15 @@ import com.ibs.exceptions.ResourceNotFoundException;
 import com.ibs.payloads.AccountDto;
 import com.ibs.payloads.User1Dto;
 import com.ibs.repositories.AccountRepo;
+import com.ibs.repositories.UserRepo;
 import com.ibs.services.AccountService;
 
 @Service
  public class AccountServiceImpl implements AccountService{
 	@Autowired
 	private AccountRepo accountRepo;
+	
+	@Autowired private UserRepo userrepo;
 	
 	@Autowired
 	private ModelMapper modelMapper;
@@ -39,6 +42,15 @@ import com.ibs.services.AccountService;
 		Account savedaccount = this.accountRepo.save(account);
 		return this.accountToDto(savedaccount);
 	}
+	
+	@Override
+	public AccountDto getUserById(String userId) {
+		// TODO Auto-generated method stub
+		Account user = this.accountRepo.findByUserId(userId);
+		
+		return this.accountToDto(user);
+	}
+
 	
 	private Account dtoToAccount(AccountDto accountDto)
 	{

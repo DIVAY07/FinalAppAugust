@@ -35,7 +35,7 @@ public class SecurityConfig {
 
         http.csrf(csrf -> csrf.disable())
         .cors(cors->cors.disable())
-                .authorizeHttpRequests(auth->auth.requestMatchers("/home/users").authenticated().requestMatchers("/api/login").permitAll().requestMatchers("/api/openaccount").permitAll().requestMatchers("/api/register").permitAll().requestMatchers("/api/test").permitAll().anyRequest().authenticated())
+                .authorizeHttpRequests(auth->auth.requestMatchers("/home/users").authenticated().requestMatchers("/api/login").permitAll().requestMatchers("/api/openaccount").permitAll().requestMatchers("/api/userDashboard?**").permitAll().requestMatchers("/api/register").permitAll().requestMatchers("/api/test").permitAll().anyRequest().authenticated())
                 .exceptionHandling(ex -> ex.authenticationEntryPoint(point))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);

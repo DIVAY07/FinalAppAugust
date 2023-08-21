@@ -7,10 +7,11 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
+import com.ibs.entities.Account;
 import com.ibs.entities.User1;
 import com.ibs.exceptions.ResourceNotFoundException;
 import com.ibs.payloads.User1Dto;
+import com.ibs.repositories.AccountRepo;
 import com.ibs.repositories.UserRepo;
 import com.ibs.services.UserService;
 
@@ -19,6 +20,8 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserRepo userRepo;
+	
+	@Autowired private AccountRepo accRepo;
 	
 	@Autowired
 	private ModelMapper modelMapper;
@@ -53,7 +56,8 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User1Dto getUserById(Integer userId) {
 		// TODO Auto-generated method stub
-		User1 user = this.userRepo.findById(userId).orElseThrow(()->new ResourceNotFoundException("User", "Id", userId));
+		User1 user = this.userRepo.findByaccNo(userId).orElseThrow(()->new ResourceNotFoundException("User", "Id", userId));
+		
 		return this.userToDto(user);
 	}
 

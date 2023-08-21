@@ -44,6 +44,10 @@ public class AccountController{
 	@Autowired
 	private UserServiceImpl userService;
 	
+	@Autowired private AccountServiceImpl accservice;
+	
+	
+	
 	@Autowired
 	private UserDetailsService userDetailsService;
 	
@@ -69,7 +73,7 @@ public class AccountController{
 	                .userId(userDetails.getUsername()).build();
 	        return new ResponseEntity<>(response, HttpStatus.OK);
 	    }
-
+	 
 	    private void doAuthenticate(String userId, String loginPass) {
 
 	        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userId, loginPass);
@@ -82,6 +86,13 @@ public class AccountController{
 	        }
 
 	    }
+	    
+	    @GetMapping("/userDashboard?{userId}")
+	    public ResponseEntity<User1Dto> getSingleUser(@PathVariable("userId") String userId)
+		{
+			AccountDto acc = accservice.getUserById(userId);
+	    	return ResponseEntity.ok(this.userService.getUserById(acc.getAccNo()));
+		}
 
 	    @ExceptionHandler(BadCredentialsException.class)
 	    public String exceptionHandler() {

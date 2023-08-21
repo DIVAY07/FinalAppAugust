@@ -33,9 +33,10 @@ public class Account implements UserDetails{
 	@Id
 	private String userId;
 	
-	@OneToOne(cascade = CascadeType.ALL)
-//	@JsonManagedReference
-	private User1 user1;
+	private int accNo;
+//	@OneToOne(cascade = CascadeType.ALL)
+////	@JsonManagedReference
+//	private User1 user1;
 	
 	private String loginPass;
 	private String transPass;

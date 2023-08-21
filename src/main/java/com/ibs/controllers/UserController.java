@@ -32,6 +32,9 @@ public class UserController {
 	@Autowired
 	private UserServiceImpl userService;
 	
+	@Autowired 
+	private AccountServiceImpl accservice; 
+	
 	@PostMapping("/openaccount")
 	public ResponseEntity<User1Dto> createUser(@Valid @RequestBody User1Dto userDto)
 	{
@@ -39,6 +42,7 @@ public class UserController {
 		User1Dto createUserDto = this.userService.createUser(userDto);
 		return new ResponseEntity<>(createUserDto, HttpStatus.CREATED);
 	}
+	
 	
 	@PutMapping("/{userId}")
 	public ResponseEntity<User1Dto> updateUser(@Valid @RequestBody User1Dto userDto , @PathVariable("userId") Integer uid)
@@ -54,6 +58,8 @@ public class UserController {
 //		this.userService.deleteUser(uid);
 //		return new ResponseEntity<ApiResponse>(new ApiResponse("User deleted Successfully" , true),HttpStatus.OK);
 //	}
+	
+	
 	
 	@GetMapping("/userlist")
 	public ResponseEntity<List<User1Dto>> getAllUsers()
