@@ -87,12 +87,12 @@ public class AccountController{
 
 	    }
 	    
-	    @GetMapping("/userDashboard?{userId}")
-	    public ResponseEntity<User1Dto> getSingleUser(@PathVariable("userId") String userId)
-		{
-			AccountDto acc = accservice.getUserById(userId);
-	    	return ResponseEntity.ok(this.userService.getUserById(acc.getAccNo()));
-		}
+//	    @GetMapping("/userDashboard?{userId}")
+//	    public ResponseEntity<User1Dto> getSingleUser(@PathVariable("userId") String userId)
+//		{
+//			AccountDto acc = accservice.getUserById(userId);
+//	    	return ResponseEntity.ok(this.userService.getUserById(acc.getAccNo()));
+//		}
 
 	    @ExceptionHandler(BadCredentialsException.class)
 	    public String exceptionHandler() {
