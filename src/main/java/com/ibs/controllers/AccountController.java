@@ -35,7 +35,7 @@ import com.ibs.entities.JwtResponse;
 
 import jakarta.validation.Valid;
 
-
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("/api")
 
@@ -87,7 +87,7 @@ public class AccountController{
 
 	    }
 	    
-	    @GetMapping("/userDashboard?{userId}")
+	    @GetMapping("/userDashboard/{userId}")
 	    public ResponseEntity<User1Dto> getSingleUser(@PathVariable("userId") String userId)
 		{
 			AccountDto acc = accservice.getUserById(userId);

@@ -24,7 +24,7 @@ import com.ibs.services.impl.*;
 import jakarta.validation.Valid;
 
 //import jakarta.validation.Valid;
-
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("/api")
 public class UserController {
