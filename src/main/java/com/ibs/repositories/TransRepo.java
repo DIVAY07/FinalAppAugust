@@ -7,7 +7,7 @@ import com.ibs.entities.Transactions;
 
 
 public interface TransRepo extends JpaRepository<Transactions,Integer>{
-	public List<Transactions> findByPayee(Integer payee);
+	public List<Transactions> findByPayer(Integer payee);
 	public List<Transactions> findByReceiver(Integer payee);
 
 }

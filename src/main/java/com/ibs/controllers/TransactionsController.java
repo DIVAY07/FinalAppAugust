@@ -4,6 +4,7 @@ package com.ibs.controllers;
 import java.util.List;
 import java.util.Map;
 
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,11 +30,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ibs.payloads.ApiResponse;
 import com.ibs.payloads.*;
 import com.ibs.payloads.User1Dto;
+import com.ibs.repositories.UserRepo;
 import com.ibs.security.JwtHelper;
 import com.ibs.payloads.AccountDto;
 import com.ibs.services.impl.*;
 import com.ibs.entities.JwtRequest;
 import com.ibs.entities.JwtResponse;
+import com.ibs.entities.User1;
 
 import jakarta.validation.Valid;
 
@@ -50,35 +53,63 @@ public class TransactionsController {
 	private UserServiceImpl userService;
 	
 	@Autowired
+	private UserRepo userrepo;
+	
+	@Autowired
+	private ModelMapper modelMapper;
+	
+	@Autowired
 	private AccountServiceImpl accService;
 	
 	  @GetMapping("/userDashboard/{userId}")
-	    public ResponseEntity<User1Dto> getSingleUser(@PathVariable("userId") String userId)
+	    public ResponseEntity<User1> getSingleUser(@PathVariable("userId") String userId)
 		{
 			AccountDto acc = accService.getUserById(userId);
 	    	return ResponseEntity.ok(this.userService.getUserById(acc.getAccNo()));
 		}
-	  @PostMapping("/userDashboard/{userId}/fundTransfer")
+	  @PostMapping("/userDashboard/fundTransfer/{userId}")
 	  public ResponseEntity<TransactionsDto> CreateTrans(@Valid @RequestBody TransactionsDto trans)
 	  {	
-		  User1Dto current = this.userService.getUserById(trans.getPayee());
-		  User1Dto current1 = this.userService.getUserById(trans.getPayee());
-		  current.setAccBalance( current.getAccBalance() - trans.getAmount());		  
+		  User1 current = this.userService.getUserById(trans.getPayer());
+		  User1 current1 = this.userService.getUserById(trans.getReceiver());
+//		  User1 current_user1 = dtoToUser(current);
+		  current.setAccBalance(current.getAccBalance() - trans.getAmount());
+//		  User1 current_user2 = dtoToUser(current1);
 		  current1.setAccBalance( current1.getAccBalance() + trans.getAmount());
+//		  User1 current_user1 = dtoToUser(current);
+//		  User1 current_user2 = dtoToUser(current1);
+//		  current_user1.userService.createUser()
+//		  current.userService.createUser()
+		  
 		  TransactionsDto createdTrans = this.transService.createTrans(trans);
+
+	 
 		  return new ResponseEntity<>(createdTrans, HttpStatus.CREATED);
 	  }
 	  
-	  @GetMapping("/userDashboard/{userId}/Transactions")
+	  @GetMapping("/userDashboard/showTransactions/{userId}")
 	 
 		public ResponseEntity<List<TransactionsDto>> getTransById(@PathVariable("userId") String userId)
 		{
 		    AccountDto acc = accService.getUserById(userId);
-		    List<TransactionsDto> merged = this.transService.getTransByPayee(acc.getAccNo());
+		    List<TransactionsDto> merged = this.transService.getTransByPayer(acc.getAccNo());
 		    merged.addAll(this.transService.getTransByReceiver(acc.getAccNo()));
 		    
 			return ResponseEntity.ok(merged);
 			
 		}
-	   
+	  
+//	  
+//	  private User1 dtoToUser(User1Dto userDto)
+//		{
+//			User1 user = this.modelMapper.map(userDto, User1.class);
+//			return user;
+//		}
+//		
+//		public User1Dto userToDto(User1 user)
+//		{
+//			User1Dto userDto = this.modelMapper.map(user, User1Dto.class);
+//			return userDto;
+//	    }
+//	   
 }

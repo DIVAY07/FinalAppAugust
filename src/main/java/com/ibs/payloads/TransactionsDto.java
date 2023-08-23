@@ -12,7 +12,7 @@ import lombok.Setter;
 @Getter
 public class TransactionsDto {
 @NotNull
-private int payee;
+private int payer;
 
 @NotNull
 private int receiver;
@@ -26,5 +26,5 @@ private int transId;
 
 private int amount;
 
-	
+
 }

@@ -23,7 +23,7 @@ public class Transactions {
 
 
 
-private int payee;
+private int payer;
 private int receiver;
 private String mode;
 
@@ -32,5 +32,8 @@ private String mode;
 private int transId;
 
 private int amount;
+
+
+
 
 }

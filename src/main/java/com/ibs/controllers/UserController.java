@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ibs.entities.User1;
 import com.ibs.payloads.ApiResponse;
 import com.ibs.payloads.User1Dto;
 import com.ibs.services.impl.*;
@@ -61,14 +62,21 @@ public class UserController {
 	
 	
 	
-	@GetMapping("/userlist")
-	public ResponseEntity<List<User1Dto>> getAllUsers()
+	@GetMapping("/admin/userlist_approved")
+	public ResponseEntity<List<User1Dto>> getAllUsersthatareApp()
 	{
-		return ResponseEntity.ok(this.userService.getAllUsers());
+		return ResponseEntity.ok(this.userService.getAllUsersApproved(true));
 	}
 	
+	@GetMapping("admin/userlist_requested")
+	public ResponseEntity<List<User1Dto>> getAllUsersthatareReq()
+	{
+		return ResponseEntity.ok(this.userService.getAllUsersRequested(false));
+	}
+	
+	
 	@GetMapping("/{userId}")
-	public ResponseEntity<User1Dto> getSingleUser(@PathVariable("userId") Integer uid)
+	public ResponseEntity<User1> getSingleUser(@PathVariable("userId") Integer uid)
 	{
 		return ResponseEntity.ok(this.userService.getUserById(uid));
 	}

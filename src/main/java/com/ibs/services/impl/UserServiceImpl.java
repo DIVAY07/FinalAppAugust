@@ -52,19 +52,28 @@ public class UserServiceImpl implements UserService {
 		User1Dto userDto1 = this.userToDto(updatedUser);
 		return userDto1;
 	}
+	
 
 	@Override
-	public User1Dto getUserById(Integer userId) {
+	public User1 getUserById(Integer userId) {
 		// TODO Auto-generated method stub
 		User1 user = this.userRepo.findByaccNo(userId).orElseThrow(()->new ResourceNotFoundException("User", "Id", userId));
 		
-		return this.userToDto(user);
+		return (user);
 	}
 
 	@Override
-	public List<User1Dto> getAllUsers() {
+	public List<User1Dto> getAllUsersApproved(Boolean var) {
 		// TODO Auto-generated method stub
-		List<User1> users = this.userRepo.findAll();
+		List<User1> users = this.userRepo.findByIsApproved(var);
+		List<User1Dto> userDtos=users.stream().map(user->this.userToDto(user)).collect(Collectors.toList());
+		return userDtos;
+	}
+	
+	@Override
+	public List<User1Dto> getAllUsersRequested(Boolean var) {
+		// TODO Auto-generated method stub
+		List<User1> users = this.userRepo.findByIsApproved(var);
 		List<User1Dto> userDtos=users.stream().map(user->this.userToDto(user)).collect(Collectors.toList());
 		return userDtos;
 	}
@@ -87,5 +96,11 @@ public class UserServiceImpl implements UserService {
 		User1Dto userDto = this.modelMapper.map(user, User1Dto.class);
 		return userDto;
     }
+//
+//	@Override
+//	public List<User1Dto> getAllUsers() {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 
 }

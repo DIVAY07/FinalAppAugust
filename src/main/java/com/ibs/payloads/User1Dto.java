@@ -43,4 +43,7 @@ public class User1Dto {
 	
 	@NotNull
 	private Integer accBalance;
+	
+	@NotNull
+	private boolean isApproved;
 }
