@@ -41,7 +41,7 @@ public class User1Dto {
 	@NotNull
 	private String dob;
 	
-	@NotNull
+	
 	private Integer accBalance;
 	
 	@NotNull

@@ -31,6 +31,8 @@ public class UserServiceImpl implements UserService {
 	public User1Dto createUser(User1Dto userDto) {
 		// TODO Auto-generated method stub
 		User1 user = this.dtoToUser(userDto);
+		user.setAccBalance(500);
+		user.setIsApproved(false);
 		User1 savedUser = this.userRepo.save(user);
 		return this.userToDto(savedUser);
 	}

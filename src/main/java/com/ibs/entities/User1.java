@@ -31,11 +31,22 @@ public class User1 {
 	private String aadharNo;
 	private String panNo;
 	private String dob;
-//	@Column(columnDefinition = "integer default 500")
 	private int accBalance;
 	
 	
-	@Column(columnDefinition = "boolean default false")
+	public void setIsApproved(boolean val)
+	{
+		this.isApproved = val;
+		
+	}
+	
+	public boolean getIsApproved()
+	{
+		return this.isApproved;
+	}
+	
+	
+//	@Column(columnDefinition = "boolean default false")
 	private boolean isApproved;
 	
 //	@OneToOne(mappedBy = "user1")

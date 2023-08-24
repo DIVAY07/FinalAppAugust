@@ -75,11 +75,13 @@ public class UserController {
 	}
 	
 	@PostMapping("admin/userlist_requested")
-	public ResponseEntity<User1> updateapproval (@Valid@RequestBody Integer uid)
+	public ResponseEntity<User1> updateapproval (@Valid@RequestBody User1 user)
 	{
-		User1 user = this.userService.getUserById(uid);
-		user.setApproved(true);
-		return new ResponseEntity<>(user, HttpStatus.CREATED);
+		
+		User1 user1 = this.userService.getUserById(user.getAccNo());
+//		System.out.println("User " : user1.ge);
+		user1.setIsApproved(true);
+		return new ResponseEntity<>(user1, HttpStatus.CREATED);
 		
 		
 	}
