@@ -74,7 +74,15 @@ public class UserController {
 		return ResponseEntity.ok(this.userService.getAllUsersRequested(false));
 	}
 	
-	
+	@PostMapping("admin/userlist_requested")
+	public ResponseEntity<User1> updateapproval (@Valid@RequestBody Integer uid)
+	{
+		User1 user = this.userService.getUserById(uid);
+		user.setApproved(true);
+		return new ResponseEntity<>(user, HttpStatus.CREATED);
+		
+		
+	}
 	@GetMapping("/{userId}")
 	public ResponseEntity<User1> getSingleUser(@PathVariable("userId") Integer uid)
 	{
