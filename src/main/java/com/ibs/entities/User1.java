@@ -20,7 +20,7 @@ public class User1 {
 //	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SEQ_GEN")
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+//	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int accNo;
 	
 	
@@ -32,22 +32,23 @@ public class User1 {
 	private String panNo;
 	private String dob;
 	private int accBalance;
-	
-	
-	public void setIsApproved(boolean val)
-	{
-		this.isApproved = val;
-		
-	}
-	
-	public boolean getIsApproved()
-	{
-		return this.isApproved;
-	}
-	
+//	private int isApproved;
+//	
+//	
+//	public void setIsApproved(Integer val)
+//	{
+//		this.isApproved = val;
+//		
+//	}
+//	
+//	public int getIsApproved()
+//	{
+//		return this.isApproved;
+//	}
+//	
 	
 //	@Column(columnDefinition = "boolean default false")
-	private boolean isApproved;
+//	private boolean isApproved;
 	
 //	@OneToOne(mappedBy = "user1")
 ////	@JsonBackReference

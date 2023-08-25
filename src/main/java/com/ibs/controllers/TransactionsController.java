@@ -55,6 +55,8 @@ public class TransactionsController {
 	@Autowired
 	private UserRepo userrepo;
 	
+	
+	
 	@Autowired
 	private ModelMapper modelMapper;
 	
@@ -85,6 +87,16 @@ public class TransactionsController {
 
 	 
 		  return new ResponseEntity<>(createdTrans, HttpStatus.CREATED);
+	  }
+	  @PostMapping("/userDashboard/withdrawl/{userId}")
+	  public ResponseEntity<Integer> withdrawamount(@Valid @RequestBody Integer amount ,@PathVariable("userId") String userId)
+	  
+	  {
+		 AccountDto acc = this.accService.getUserById(userId);
+
+		 User1 user = this.userService.getUserById(acc.getAccNo());
+		 user.setAccBalance(user.getAccBalance() - amount);
+		 return new ResponseEntity<>(user.getAccBalance(),HttpStatus.CREATED);
 	  }
 	  
 	  @GetMapping("/userDashboard/showTransactions/{userId}")

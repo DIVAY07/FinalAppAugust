@@ -13,13 +13,19 @@ import com.ibs.exceptions.ResourceNotFoundException;
 import com.ibs.payloads.User1Dto;
 import com.ibs.repositories.AccountRepo;
 import com.ibs.repositories.UserRepo;
+import com.ibs.repositories.NotapprovedRepo;
 import com.ibs.services.UserService;
+import com.ibs.entities.Notapproved;
 
 @Service
 public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserRepo userRepo;
+	
+	
+	@Autowired
+	private NotapprovedRepo NotapprovedRepo;
 	
 	@Autowired private AccountRepo accRepo;
 	
@@ -28,15 +34,30 @@ public class UserServiceImpl implements UserService {
 
 
 	@Override
-	public User1Dto createUser(User1Dto userDto) {
+	public User1 createUser(Notapproved request) {
 		// TODO Auto-generated method stub
-		User1 user = this.dtoToUser(userDto);
+		User1 user = this.nappToUser(request);
 		user.setAccBalance(500);
-		user.setIsApproved(false);
+		int userId = request.getAccNo();	
 		User1 savedUser = this.userRepo.save(user);
-		return this.userToDto(savedUser);
+		Notapproved nap =  this.NotapprovedRepo.findById(userId).orElseThrow(()->new ResourceNotFoundException("User", "Id", userId));
+		this.NotapprovedRepo.delete(nap);
+		
+		
+		return savedUser;
 	}
 
+	@Override
+	public Notapproved createdemo(Notapproved na) {
+		// TODO Auto-generated method stub
+//		Notapproved user = this.dtoToUser(userDto);
+		na.setAccBalance(500);
+//		user.setIsApproved(0);
+		Notapproved savedUser = this.NotapprovedRepo.save(na);
+		return savedUser;
+	}
+
+	
 	@Override
 	public User1Dto updateUser(User1Dto userDto, Integer userId) {
 		// TODO Auto-generated method stub
@@ -65,31 +86,42 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<User1Dto> getAllUsersApproved(Boolean var) {
+	public List<User1> getAllUsersApproved() {
 		// TODO Auto-generated method stub
-		List<User1> users = this.userRepo.findByIsApproved(var);
-		List<User1Dto> userDtos=users.stream().map(user->this.userToDto(user)).collect(Collectors.toList());
-		return userDtos;
+		List<User1> users = this.userRepo.findAll();
+//		List<User1Dto> userDtos=users.stream().map(user->this.userToDto(user)).collect(Collectors.toList());
+		return users;
 	}
-	
+//	
 	@Override
-	public List<User1Dto> getAllUsersRequested(Boolean var) {
+	public List<Notapproved> getAllUsersRequested() {
 		// TODO Auto-generated method stub
-		List<User1> users = this.userRepo.findByIsApproved(var);
-		List<User1Dto> userDtos=users.stream().map(user->this.userToDto(user)).collect(Collectors.toList());
-		return userDtos;
+		List<Notapproved> users = this.NotapprovedRepo.findAll();
+//		List<User1Dto> userDtos=users.stream().map(user->this.userToDto(user)).collect(Collectors.toList());
+		return users;
 	}
+//	@Override
+//	public User1 changeApproval(User1 user1)
+//	{
+//		user1.setIsApproved(1);
+//		return user1;
+//	}
 
 	@Override
 	public void deleteUser(Integer userId) {
 		// TODO Auto-generated method stub
-		User1 user =  this.userRepo.findById(userId).orElseThrow(()->new ResourceNotFoundException("User", "Id", userId));
-		this.userRepo.delete(user);
+		Notapproved user =  this.NotapprovedRepo.findById(userId).orElseThrow(()->new ResourceNotFoundException("User", "Id", userId));
+		this.NotapprovedRepo.delete(user);
 	}
 	
 	private User1 dtoToUser(User1Dto userDto)
 	{
 		User1 user = this.modelMapper.map(userDto, User1.class);
+		return user;
+	}
+	private User1 nappToUser(Notapproved nap)
+	{
+		User1 user = this.modelMapper.map(nap, User1.class);
 		return user;
 	}
 	

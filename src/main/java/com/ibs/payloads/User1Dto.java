@@ -1,5 +1,6 @@
 package com.ibs.payloads;
 
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -32,10 +33,12 @@ public class User1Dto {
 	private String email;
 	
 	@NotNull
-	@Size(min = 16 , message = "Invalid entry")
+	@Size(min = 16 , message = "Invalid entry" )
+	@Column(unique = true)
 	private String aadharNo;
 	
 	@NotNull
+	@Column(unique = true)
 	private String panNo;
 	
 	@NotNull
@@ -44,6 +47,5 @@ public class User1Dto {
 	
 	private Integer accBalance;
 	
-	@NotNull
-	private boolean isApproved;
+	
 }

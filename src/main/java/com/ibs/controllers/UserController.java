@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ibs.entities.Notapproved;
 import com.ibs.entities.User1;
 import com.ibs.payloads.ApiResponse;
 import com.ibs.payloads.User1Dto;
@@ -37,12 +38,19 @@ public class UserController {
 	private AccountServiceImpl accservice; 
 	
 	@PostMapping("/openaccount")
-	public ResponseEntity<User1Dto> createUser(@Valid @RequestBody User1Dto userDto)
-	{
-//		System.out.println("the openaccount api is working till here");
-		User1Dto createUserDto = this.userService.createUser(userDto);
-		return new ResponseEntity<>(createUserDto, HttpStatus.CREATED);
+	public ResponseEntity<Notapproved> createDemo(@Valid @RequestBody Notapproved notapproved)
+	{	
+		Notapproved createna = this.userService.createdemo(notapproved);
+		return new ResponseEntity<>(createna, HttpStatus.CREATED);
 	}
+	
+	
+//	@PostMapping("/openaccounat")
+//	public ResponseEntity<User1Dto> createUser(@Valid @RequestBody User1Dto userDto)
+//	{	
+//		User1Dto createUserDto = this.userService.createUser(userDto);
+//		return new ResponseEntity<>(createUserDto, HttpStatus.CREATED);
+//	}
 	
 	
 	@PutMapping("/{userId}")
@@ -61,30 +69,32 @@ public class UserController {
 //	}
 	
 	
+//	
+//	@GetMapping("/admin/userlist_approved")
+//	public ResponseEntity<List<User1>> getAllUsersthatareApp()
+//	{
+//		return ResponseEntity.ok(this.userService.getAllUsersApproved(1));
+//	}
+//	
+//	@GetMapping("admin/userlist_requested")
+//	public ResponseEntity<List<User1>> getAllUsersthatareReq()
+//	{
+//		return ResponseEntity.ok(this.userService.getAllUsersRequested(0));
+//	}
 	
-	@GetMapping("/admin/userlist_approved")
-	public ResponseEntity<List<User1Dto>> getAllUsersthatareApp()
-	{
-		return ResponseEntity.ok(this.userService.getAllUsersApproved(true));
-	}
-	
-	@GetMapping("admin/userlist_requested")
-	public ResponseEntity<List<User1Dto>> getAllUsersthatareReq()
-	{
-		return ResponseEntity.ok(this.userService.getAllUsersRequested(false));
-	}
-	
-	@PostMapping("admin/userlist_requested")
-	public ResponseEntity<User1> updateapproval (@Valid@RequestBody User1 user)
-	{
-		
-		User1 user1 = this.userService.getUserById(user.getAccNo());
-//		System.out.println("User " : user1.ge);
-		user1.setIsApproved(true);
-		return new ResponseEntity<>(user1, HttpStatus.CREATED);
-		
-		
-	}
+//	@PostMapping("admin/userlist_requested")
+//	public ResponseEntity<User1> updateapproval (@Valid@RequestBody User1Dto user)
+//	{
+//		User1 use_new = this.userService.D
+//			
+//		User1 user1 = this.userService.getUserById(user_new.getAccNo());
+////		System.out.println("User " : user1.ge);
+//		User1 user2 = this.userService.changeApproval(user1);
+//		
+//		return new ResponseEntity<>(user2, HttpStatus.CREATED);
+//		
+//		
+//	}
 	@GetMapping("/{userId}")
 	public ResponseEntity<User1> getSingleUser(@PathVariable("userId") Integer uid)
 	{

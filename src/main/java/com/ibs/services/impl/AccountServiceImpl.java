@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.ibs.entities.Account;
+import com.ibs.entities.Notapproved;
 import com.ibs.entities.User1;
 import com.ibs.exceptions.ResourceNotFoundException;
 import com.ibs.payloads.AccountDto;
@@ -35,6 +36,12 @@ import com.ibs.services.AccountService;
 
 	@Override
 	public AccountDto createAccount(AccountDto accountDto) {
+		Boolean exists = this.accountRepo.existsById(accountDto.getAccNo()).orElseThrow(()->new ResourceNotFoundException("User","AccNumber",accountDto.getAccNo()));
+		
+		
+//		Notapproved nap =  this.accountDto.g
+//				(userId).orElseThrow(()->new ResourceNotFoundException("User", "Id", userId));
+
 		Account account = this.dtoToAccount(accountDto);
 		account.setUserId(account.getUserId());
 		account.setLoginPass(passwordEncoder.encode(account.getLoginPass()));
