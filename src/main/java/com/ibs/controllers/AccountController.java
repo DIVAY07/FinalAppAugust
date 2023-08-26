@@ -2,6 +2,7 @@ package com.ibs.controllers;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,11 +28,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ibs.payloads.ApiResponse;
 import com.ibs.payloads.User1Dto;
+import com.ibs.repositories.AccountRepo;
 import com.ibs.security.JwtHelper;
 import com.ibs.payloads.AccountDto;
 import com.ibs.services.impl.*;
+import com.ibs.entities.Account;
 import com.ibs.entities.JwtRequest;
 import com.ibs.entities.JwtResponse;
+import com.ibs.entities.Notapproved;
+import com.ibs.exceptions.ResourceNotFoundException;
 
 import jakarta.validation.Valid;
 
@@ -46,6 +51,8 @@ public class AccountController{
 	
 	@Autowired private AccountServiceImpl accservice;
 	
+	@Autowired
+	private AccountRepo accountRepo;
 	
 	
 	@Autowired
@@ -115,6 +122,12 @@ public class AccountController{
 	@PostMapping("/register")
 	public ResponseEntity<AccountDto> createAccount(@Valid @RequestBody AccountDto accountDto)
 	{
+		Optional<Account> na1 = this.accountRepo.findByuserId(accountDto.getUserId());
+		if(na1.isEmpty()==false)
+		{
+			throw new ResourceNotFoundException("User Id", " Already Exists", 404);
+		}
+
 		AccountDto createAccountDto = this.accountService.createAccount(accountDto);
 		return new ResponseEntity<>(createAccountDto, HttpStatus.CREATED);
 	}

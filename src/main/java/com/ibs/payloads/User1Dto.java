@@ -34,11 +34,9 @@ public class User1Dto {
 	
 	@NotNull
 	@Size(min = 16 , message = "Invalid entry" )
-	@Column(unique = true)
 	private String aadharNo;
 	
 	@NotNull
-	@Column(unique = true)
 	private String panNo;
 	
 	@NotNull

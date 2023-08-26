@@ -3,6 +3,7 @@ package com.ibs.controllers;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
@@ -37,6 +38,7 @@ import com.ibs.services.impl.*;
 import com.ibs.entities.JwtRequest;
 import com.ibs.entities.JwtResponse;
 import com.ibs.entities.User1;
+import com.ibs.exceptions.ResourceNotFoundException;
 
 import jakarta.validation.Valid;
 
@@ -73,20 +75,35 @@ public class TransactionsController {
 	  public ResponseEntity<TransactionsDto> CreateTrans(@Valid @RequestBody TransactionsDto trans)
 	  {	
 		  User1 current = this.userService.getUserById(trans.getPayer());
-		  User1 current1 = this.userService.getUserById(trans.getReceiver());
-//		  User1 current_user1 = dtoToUser(current);
+//		  User1 current1 = this.userService.getUserById(trans.getReceiver());
+		  Optional<User1> current1 = this.userrepo.findByaccNo(trans.getReceiver());
+			if(current1.isEmpty()== true)
+			{
+				System.out.println("receiver not there");
+				throw new ResourceNotFoundException("Receiver Not Found", "Pls Check", trans.getReceiver());
+			}
+		  
+			else  if(current.getAccNo()== trans.getReceiver())
+		  {
+			  System.out.println("Same payer and receiver");
+			  throw new ResourceNotFoundException("Account number", "same , can't pay", current.getAccNo());
+		  }
+		  
+		  else if(current.getAccBalance()<trans.getAmount())
+		  {
+			  System.out.println("Insufficient Balance");
+			  throw new ResourceNotFoundException("Insufficient Balance", "Pls Add Money", current.getAccNo());
+		  }
+		  else {
+			  User1 current12 = this.userService.getUserById(trans.getReceiver());
 		  current.setAccBalance(current.getAccBalance() - trans.getAmount());
-//		  User1 current_user2 = dtoToUser(current1);
-		  current1.setAccBalance( current1.getAccBalance() + trans.getAmount());
-//		  User1 current_user1 = dtoToUser(current);
-//		  User1 current_user2 = dtoToUser(current1);
-//		  current_user1.userService.createUser()
-//		  current.userService.createUser()
+		  current12.setAccBalance( current12.getAccBalance()+ trans.getAmount());
 		  
 		  TransactionsDto createdTrans = this.transService.createTrans(trans);
 
 	 
 		  return new ResponseEntity<>(createdTrans, HttpStatus.CREATED);
+		  }
 	  }
 	  @PostMapping("/userDashboard/withdrawl/{userId}")
 	  public ResponseEntity<Integer> withdrawamount(@Valid @RequestBody Integer amount ,@PathVariable("userId") String userId)

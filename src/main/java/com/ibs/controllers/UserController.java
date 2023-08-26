@@ -2,6 +2,7 @@ package com.ibs.controllers;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -19,8 +20,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ibs.entities.Notapproved;
 import com.ibs.entities.User1;
+import com.ibs.exceptions.ResourceNotFoundException;
 import com.ibs.payloads.ApiResponse;
 import com.ibs.payloads.User1Dto;
+import com.ibs.repositories.NotapprovedRepo;
+import com.ibs.repositories.UserRepo;
 import com.ibs.services.impl.*;
 
 import jakarta.validation.Valid;
@@ -36,10 +40,34 @@ public class UserController {
 	
 	@Autowired 
 	private AccountServiceImpl accservice; 
+
+	
+	@Autowired
+	private NotapprovedRepo notapprovedRepo;
 	
 	@PostMapping("/openaccount")
 	public ResponseEntity<Notapproved> createDemo(@Valid @RequestBody Notapproved notapproved)
 	{	
+		Optional<Notapproved> na1 = this.notapprovedRepo.findByaadharNo(notapproved.getAadharNo());
+		Optional<Notapproved> na2 = this.notapprovedRepo.findBymobile(notapproved.getMobile());
+		Optional<Notapproved> na3 = this.notapprovedRepo.findByemail(notapproved.getEmail());
+		Optional<Notapproved> na4 = this.notapprovedRepo.findBypanNo(notapproved.getPanNo());
+		if(na1.isEmpty()==false )
+		{
+			throw new ResourceNotFoundException("Aadhar Number", " Already Exists", notapproved.getAccNo());
+		}
+		else if(na2.isEmpty()==false )
+		{
+			throw new ResourceNotFoundException("Mobile Number", " Already Exists", notapproved.getAccNo());
+		}
+		else if(na3.isEmpty()==false )
+		{
+			throw new ResourceNotFoundException("Email Number", " Already Exists", notapproved.getAccNo());
+		}
+		else if(na4.isEmpty()==false )
+		{
+			throw new ResourceNotFoundException("Pan Number", " Already Exists", notapproved.getAccNo());
+		}
 		Notapproved createna = this.userService.createdemo(notapproved);
 		return new ResponseEntity<>(createna, HttpStatus.CREATED);
 	}

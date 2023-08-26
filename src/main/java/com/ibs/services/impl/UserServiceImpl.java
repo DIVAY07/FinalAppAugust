@@ -27,7 +27,8 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private NotapprovedRepo NotapprovedRepo;
 	
-	@Autowired private AccountRepo accRepo;
+	@Autowired 
+	private AccountRepo accRepo;
 	
 	@Autowired
 	private ModelMapper modelMapper;

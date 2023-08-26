@@ -1,6 +1,7 @@
 package com.ibs.services.impl;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -36,18 +37,27 @@ import com.ibs.services.AccountService;
 
 	@Override
 	public AccountDto createAccount(AccountDto accountDto) {
-		Boolean exists = this.accountRepo.existsById(accountDto.getAccNo()).orElseThrow(()->new ResourceNotFoundException("User","AccNumber",accountDto.getAccNo()));
+//		Boolean exists = this.accountRepo.existsById(accountDto.getAccNo()).orElseThrow(()->new ResourceNotFoundException("User","AccNumber",accountDto.getAccNo()));
 		
+		Optional<User1> user1 = this.userrepo.findByaccNo(accountDto.getAccNo());
+		System.out.println(user1.isEmpty());
+		if(user1.isEmpty()==true)
+		{
+			System.out.println("Not founder");
+			throw new ResourceNotFoundException("User", "Id", accountDto.getAccNo());
+		}
 		
 //		Notapproved nap =  this.accountDto.g
 //				(userId).orElseThrow(()->new ResourceNotFoundException("User", "Id", userId));
-
+		else {
+			
 		Account account = this.dtoToAccount(accountDto);
 		account.setUserId(account.getUserId());
 		account.setLoginPass(passwordEncoder.encode(account.getLoginPass()));
 		account.setTransPass(passwordEncoder.encode(account.getTransPass()));
 		Account savedaccount = this.accountRepo.save(account);
 		return this.accountToDto(savedaccount);
+		}
 	}
 	
 	@Override

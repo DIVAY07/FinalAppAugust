@@ -35,6 +35,7 @@ public class TransServiceImpl implements TransactionsService {
 		
 		Transactions trans = dtoToTrans(transdto);
 		
+		
 //		 User1 current = this.userrepo.findByaccNo(trans.getPayee());
 //		  User1 current1 = this.userrepo.getById(trans.getPayee());
 //		  current.setAccBalance( current.getAccBalance() - trans.getAmount());		  
